@@ -6,13 +6,14 @@ import io.socket.emitter.Emitter;
 
 import java.net.URISyntaxException;
 
+
 /**
  * Cliente de socket io
  *
  */
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws InterruptedException
     {
     	try {
             // Conectar al servidor Socket.IO
@@ -31,6 +32,14 @@ public class App
                     String mensaje = (String) args[1];
                     System.out.println("Titulo: " + titulo);
                     System.out.println("Mensaje del servidor: " + mensaje);
+                    Ventana ventana = new Ventana(titulo, mensaje);
+                    ventana.mostrarVentana();
+                    try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+                    ventana.ocultarVentana();
                 }
             });
 
@@ -38,12 +47,12 @@ public class App
             socket.connect();
 
             // Esperar unos segundos antes de desconectar
-            Thread.sleep(50000);
+            //Thread.sleep(5000);
 
             // Desconectar del servidor
             //socket.disconnect();
 
-        } catch (URISyntaxException | InterruptedException e) {
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
